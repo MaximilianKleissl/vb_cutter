@@ -1,0 +1,3 @@
+pyinstaller
+moviepy
+python-vlc
