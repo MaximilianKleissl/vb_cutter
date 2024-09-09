@@ -1,0 +1,25 @@
+[video]
+input_file = "input_video.mp4"
+
+[processing]
+highlights = true
+nasenbluten = true
+pipe = true
+setter = true
+rallys = true
+
+preset = "ultrafast"
+
+[video_settings]
+time_before_rally = 3
+time_after_rally = 1
+
+time_before_highlight = 10
+time_after_highlight = 10
+
+time_before_nasenbluten = 10
+time_after_nasenbluten = 10
+
+time_before_setting = 1.5
+time_during_setting = 2
+time_after_setting = 1.5
