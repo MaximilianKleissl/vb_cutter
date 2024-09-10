@@ -22,7 +22,7 @@
 | n | Nasenbluten (Own team has Nasenbluten) |
 | N | Point (Foreign team has Nasenbluten)|
 | h | Point (Own team has a Highlight) |
-| H | Point (Foreign team has a Highlight)|
+| H | Point (Foreign team has a Highlight) |
 | o | Out of System attack (Own team) |
 | O | Out of System attack (Foreign team)|
 | 1 | Attack at pos 1 |
