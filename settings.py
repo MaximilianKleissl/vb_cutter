@@ -3,11 +3,13 @@ import toml
 class Settings:
     def __init__(self, config_file):
         config = toml.load(config_file)
-        self.input_file = config['video']['input_file']
+        self.project_folder = config['files']['project_folder']
+        self.input_video = config['files']['input_video']
+        self.markers_file = config['files']['marker_file']
 
         self.highlights = config['processing']['highlights']
         self.nasenbluten = config['processing']['nasenbluten']
-        self.pipe = config['processing']['pipe']
+        self.attacks = config['processing']['attacks']
         self.setter = config['processing']['setter']
         self.rallys = config['processing']['rallys']
         self.preset = config["processing"]["preset"]

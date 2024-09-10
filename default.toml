@@ -1,5 +1,7 @@
-[video]
-input_file = "input_video.mp4"
+[files]
+input_video = "input_video.mp4"
+marker_file = "marker.csv"
+project_folder = "project_folder"
 
 [processing]
 highlights = true
