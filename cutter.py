@@ -12,17 +12,13 @@ settings = Settings(sys.argv[1])
 
 # Datei mit den Markern einlesen
 markers = []
-with open(settings.project_folder + "/" + settings.markers_file, "r") as file:
+with open(f"{settings.project_folder}/{settings.markers_file}", "r") as file:
     reader = csv.reader(file)
-    for row in reader:
-        markers.append(
-            (row[0], float(row[1]))
-        )  # Annahme: Format ist [Marker, Zeit in Sekunden]
-
+    markers.extend((row[0], float(row[1])) for row in reader)
 print(len(markers))
 
 # Video laden
-video = VideoFileClip(settings.project_folder + "/" + settings.input_video)
+video = VideoFileClip(f"{settings.project_folder}/{settings.input_video}")
 
 ## RECEIVES
 if settings.receives:
@@ -34,7 +30,7 @@ if settings.receives:
             end_time = time + 4  # 3 Sekunden nach dem Highlight
             highlights.append((start_time, end_time))
 
-    if len(highlights) > 0:
+    if highlights:
         highlight_clips = [video.subclip(start, end) for start, end in highlights]
         highlight_video = concatenate_videoclips(highlight_clips)
         highlight_video.write_videofile(
@@ -55,7 +51,7 @@ if settings.highlights:
             )  # 3 Sekunden nach dem Highlight
             highlights.append((start_time, end_time))
 
-    if len(highlights) > 0:
+    if highlights:
         highlight_clips = [video.subclip(start, end) for start, end in highlights]
         highlight_video = concatenate_videoclips(highlight_clips)
         highlight_video.write_videofile(
@@ -76,7 +72,7 @@ if settings.nasenbluten:
             )  # 3 Sekunden nach dem Highlight
             highlights.append((start_time, end_time))
 
-    if len(highlights) > 0:
+    if highlights:
         highlight_clips = [video.subclip(start, end) for start, end in highlights]
         highlight_video = concatenate_videoclips(highlight_clips)
         highlight_video.write_videofile(
@@ -105,7 +101,7 @@ if settings.attacks:
                 end_time = time + 1.5
                 highlights.append((start_time, end_time))
 
-            if len(highlights) > 0:
+            if highlights:
                 highlight_clips = [
                     video.subclip(start, end) for start, end in highlights
                 ]
@@ -128,7 +124,7 @@ if settings.services:
             end_time = time + 3
             highlights.append((start_time, end_time))
 
-        if len(highlights) > 0:
+        if highlights:
             highlight_clips = [video.subclip(start, end) for start, end in highlights]
             highlight_video = concatenate_videoclips(highlight_clips)
             highlight_video.write_videofile(
@@ -149,7 +145,7 @@ if settings.setter:
                 time + settings.time_after_setting
             )  # 3 Sekunden nach dem Highlight
             highlights.append((start_time, time, end_time))
-    if len(highlights) > 0:
+    if highlights:
         highlight_clips = [
             [
                 video.subclip(start, t),
@@ -163,7 +159,7 @@ if settings.setter:
 
         highlight_video = concatenate_videoclips(highlight_clips)
         highlight_video.without_audio().write_videofile(
-            settings.output_folder + "/read_own_setter_video.mp4",
+            f"{settings.output_folder}/read_own_setter_video.mp4",
             preset=settings.preset,
             fps=24,
         )
@@ -181,7 +177,7 @@ if settings.setter:
                 time + settings.time_after_setting
             )  # 3 Sekunden nach dem Highlight
             highlights.append((start_time, time, end_time))
-    if len(highlights) > 0:
+    if highlights:
         highlight_clips = [
             [
                 video.subclip(start, t),
@@ -195,7 +191,7 @@ if settings.setter:
 
         highlight_video = concatenate_videoclips(highlight_clips)
         highlight_video.without_audio().write_videofile(
-            settings.output_folder + "/read_foreign_setter_video.mp4",
+            f"{settings.output_folder}/read_foreign_setter_video.mp4",
             preset=settings.preset,
             fps=24,
         )
@@ -215,5 +211,5 @@ if settings.rallys:
     # Zusammenfügen der Ballwechsel Videos
     ballwechsel_video = concatenate_videoclips(ballwechsel_clips)
     ballwechsel_video.write_videofile(
-        settings.output_folder + "/ballwechsel_video.mp4", preset=settings.preset
+        "{settings.output_folder}/ballwechsel_video.mp4", preset=settings.preset
     )

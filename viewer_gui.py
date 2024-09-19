@@ -70,28 +70,22 @@ class Viewer:
         # Sample data: list of pairs
         self.markers = []
         if os.path.isfile(
-            self.settings.project_folder + "/" + self.settings.markers_file
+            f"{self.settings.project_folder}/{self.settings.markers_file}"
         ):
-            with open(
-                self.settings.project_folder + "/" + self.settings.markers_file,
-                newline="",
-            ) as csvfile:
+            with open(f"{self.settings.project_folder}/{self.settings.markers_file}", newline="") as csvfile:
                 # Create a CSV reader object
                 reader = csv.reader(csvfile)
 
                 # Iterate through the rows of the CSV
-                for row in reader:
-                    # Append the pair (tuple) to the list
-                    self.markers.append((row[0], float(row[1])))
-
+                self.markers.extend((row[0], float(row[1])) for row in reader)
         self.sort_markers()
         self.save_markers_to_csv()
 
         self.player = vlc.MediaPlayer(
-            self.settings.project_folder + "/" + self.settings.input_video
+            f"{self.settings.project_folder}/{self.settings.input_video}"
         )
         self.player.play()
-        if len(self.markers) > 0:
+        if self.markers:
             self.player.set_time(int(self.markers[-1][1]))
 
         # Insert the data into the treeview
@@ -120,7 +114,7 @@ class Viewer:
             stand = self.tree.item(
                 self.tree.get_children(self.tree.get_children()[-1])[-1]
             )["values"][3]
-        except:
+        except Exception:
             stand = "0:0"
 
         self.time_label.config(
@@ -261,11 +255,7 @@ class Viewer:
         self.root.quit()
 
     def save_markers_to_csv(self):
-        with open(
-            self.settings.project_folder + "/" + self.settings.markers_file,
-            "w",
-            newline="",
-        ) as file:
+        with open(f"{self.settings.project_folder}/{self.settings.markers_file}", "w", newline="") as file:
             writer = csv.writer(file)
             writer.writerows(self.markers)
 
