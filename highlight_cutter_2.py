@@ -1,10 +1,11 @@
 import sys
 import csv
-import tkinter as tk
-from tkinter import ttk, messagebox
-from moviepy.editor import VideoFileClip, concatenate_videoclips
-import vlc
 import time
+import tkinter as tk
+
+from moviepy.editor import VideoFileClip, concatenate_videoclips
+from tkinter import ttk, messagebox
+import vlc
 
 
 import analyzer

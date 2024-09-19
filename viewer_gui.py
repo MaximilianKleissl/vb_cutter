@@ -1,15 +1,15 @@
-import pprint
 import os
-import vlc
-import csv
-import time
-import tkinter as tk
-from tkinter import ttk
 import sys
-import os
 import time
+import csv
+from tkinter import ttk
+import tkinter as tk
+
+
+import pprint
+import vlc
+
 from settings import Settings
-import pandas as pd
 import analyzer
 
 

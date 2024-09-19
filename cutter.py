@@ -1,11 +1,10 @@
 import sys
 
-from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 from moviepy.editor import VideoFileClip, concatenate_videoclips, vfx
+from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import csv
 
 from settings import Settings
-from stats import Stats
 import analyzer
 
 print(sys.argv[1])
@@ -24,14 +23,6 @@ print(len(markers))
 
 # Video laden
 video = VideoFileClip(settings.project_folder + "/" + settings.input_video)
-
-# stats = Stats(markers)
-# print("Stats: ")
-# print(f"Number of Rallys: {len([m for m in markers if m[0] == 'B'])}")
-# print(f"Number of Points for us: {len([m for m in markers if m[0] == 'W'])}")
-# print(f"Number of Points for Opponent: {len([m for m in markers if m[0] == 'G'])}")
-# print(f"Number of Pipes: {len([m for m in markers if m[0] == 'P'])}")
-
 
 ## RECEIVES
 if settings.receives:

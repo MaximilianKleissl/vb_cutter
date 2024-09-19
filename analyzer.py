@@ -1,5 +1,7 @@
-import pandas as pd
 import csv
+
+import pandas as pd
+
 
 codes_translator: dict = {
     "b": "Wir schlagen auf",
@@ -27,7 +29,7 @@ codes_translator: dict = {
     "r": "Annahme",
     "L": "Annahme",
     "M": "Annahme",
-    "R": "Annahme",
+    "R": "Annahme"
 }
 
 

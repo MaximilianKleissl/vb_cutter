@@ -1,7 +1,9 @@
 import sys
-import settings
 import csv
+
 import pprint
+
+import settings
 
 
 class Stats:
