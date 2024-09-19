@@ -9,8 +9,10 @@ nasenbluten = true
 pipe = true
 setter = true
 rallys = true
+receivers = true
+services = true
 
-preset = "ultrafast"
+preset = "fast"
 
 [video_settings]
 time_before_rally = 3

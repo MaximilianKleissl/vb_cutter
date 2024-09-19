@@ -3,4 +3,5 @@ moviepy
 python-vlc
 pandas
 csv
+pandas
 toml
