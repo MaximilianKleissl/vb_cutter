@@ -74,14 +74,14 @@ def estimate_player(df):
                 elif row["Our Rotation"] == 3:
                     players.append(row["Our Lineup"][6 - 1])
                 elif row["Our Rotation"] == 4:
-                    players.append(row["Our Lineup"][1 - 1])
+                    players.append(row["Our Lineup"][0])
                 else:
                     players.append("Wtf ???")
                 continue
             if row["Marker"] == "6":
                 players.append(
                     row["Our Lineup"][
-                        {1: 5 - 1, 2: 6 - 1, 3: 1 - 1, 4: 5 - 1, 5: 6 - 1, 6: 1 - 1}[
+                        {1: 5 - 1, 2: 6 - 1, 3: 0, 4: 5 - 1, 5: 6 - 1, 6: 0}[
                             row["Our Rotation"]
                         ]
                     ]
@@ -131,14 +131,14 @@ def estimate_player(df):
                 elif row["Opponent Rotation"] == 3:
                     players.append(row["Opp Lineup"][6 - 1])
                 elif row["Opponent Rotation"] == 4:
-                    players.append(row["Opp Lineup"][1 - 1])
+                    players.append(row["Opp Lineup"][0])
                 else:
                     players.append("Wtf ???")
                 continue
             if row["Marker"] == "6":
                 players.append(
                     row["Opp Lineup"][
-                        {1: 5 - 1, 2: 6 - 1, 3: 1 - 1, 4: 5 - 1, 5: 6 - 1, 6: 1 - 1}[
+                        {1: 5 - 1, 2: 6 - 1, 3: 0, 4: 5 - 1, 5: 6 - 1, 6: 0}[
                             row["Opponent Rotation"]
                         ]
                     ]
@@ -215,9 +215,7 @@ def get_dict(markers):
     last_single_set_by_us = True
     last_set_by_us = []
 
-    # Iterate through the DataFrame to update scores and sets
-    i = 0
-    for marker in df["Marker"]:
+    for i, marker in enumerate(df["Marker"]):
         if marker in ("s", "o"):
             last_single_set_by_us = True
         if marker in ("S", "O"):
@@ -238,17 +236,9 @@ def get_dict(markers):
             opp_lineup[opp_lineup.index(int(marker[1:].split(":")[0]))] = int(
                 marker[1:].split(":")[1]
             )
-        if marker == "b":
-            rally_begin_with_our_serve = True
         if marker == "B":
             rally_begin_with_our_serve = False
-        i += 1
-        if marker == "w":
-            team_score += 1
-            if not rally_begin_with_our_serve:
-                our_rotation = our_rotation - 1 if our_rotation != 1 else 6
-                our_lineup = our_lineup[1:] + [our_lineup[0]]
-        if marker == "W":
+        elif marker == "W":
             opponent_score += 1
             if rally_begin_with_our_serve:
                 opponent_rotation = (
@@ -256,7 +246,9 @@ def get_dict(markers):
                 )
                 opp_lineup = opp_lineup[1:] + [opp_lineup[0]]
 
-        if marker == "equal":
+        elif marker == "b":
+            rally_begin_with_our_serve = True
+        elif marker == "equal":
             # Check who won the set
             if team_score > opponent_score:
                 team_sets += 1
@@ -267,6 +259,11 @@ def get_dict(markers):
             team_score = 0
             opponent_score = 0
 
+        elif marker == "w":
+            team_score += 1
+            if not rally_begin_with_our_serve:
+                our_rotation = our_rotation - 1 if our_rotation != 1 else 6
+                our_lineup = our_lineup[1:] + [our_lineup[0]]
         # Append current scores and sets to their respective lists
         team_scores.append(team_score)
         opponent_scores.append(opponent_score)
@@ -311,8 +308,6 @@ if __name__ == "__main__":
         reader = csv.reader(csvfile)
 
         # Iterate through the rows of the CSV
-        for row in reader:
-            # Append the pair (tuple) to the list
-            markers.append((row[0], float(row[1])))
+        markers.extend((row[0], float(row[1])) for row in reader)
     df = get_dict(markers)
     df.to_csv("analysis.csv")

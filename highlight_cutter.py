@@ -17,7 +17,7 @@ class CutterEditor:
         self.settings = settings
         self.clips = []
         self.load_markers()
-        self.video_path = self.settings.project_folder + "/" + self.settings.input_video
+        self.video_path = f"{self.settings.project_folder}/{self.settings.input_video}"
         self.player = vlc.MediaPlayer(self.video_path)
 
         self.create_widgets()
@@ -113,7 +113,7 @@ class CutterEditor:
                 f"highlight_video_{self.marker_input.get("1.0", "end-1c")}.mp4"
             )
             highlight_video.write_videofile(
-                self.settings.project_folder + "/" + output_path,
+                f"{self.settings.project_folder}/{output_path}",
                 preset=self.settings.preset,
             )
             messagebox.showinfo("Success", f"Highlight video saved as {output_path}")
@@ -122,12 +122,9 @@ class CutterEditor:
 
     def load_markers(self):
         self.markers = []
-        with open(
-            self.settings.project_folder + "/" + self.settings.markers_file, "r"
-        ) as file:
+        with open(f"{self.settings.project_folder}/{self.settings.markers_file}", "r") as file:
             reader = csv.reader(file)
-            for row in reader:
-                self.markers.append((row[0], float(row[1])))
+            self.markers.extend((row[0], float(row[1])) for row in reader)
 
 
 if __name__ == "__main__":
