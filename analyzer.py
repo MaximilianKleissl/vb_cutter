@@ -57,7 +57,7 @@ def tagger(row):
 
 def estimate_player(df):
     players = []
-    for idx, row in df.iterrows():
+    for _, row in df.iterrows():
         if row["Marker"] == "s":
             players.append(row["Our Lineup"][row["Our Rotation"] - 1])
             continue
